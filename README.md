@@ -28,3 +28,7 @@ https://github.com/user-attachments/assets/f7fd2392-257d-49d6-bc00-359f8776f05d
 
 * [yorunoken's wofi kaomoji](https://github.com/yorunoken/wofi-kaomoji) for the idea
 * [w33ble's emoticon-data](https://github.com/w33ble/emoticon-data/tree/master) for kaomoji database
+
+# to implement
+
+* favoriting kaomoji
