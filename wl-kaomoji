@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+# kaomoji-picker.sh
+# Requires: jq, wofi, wl-clipboard (wl-copy), wtype
+
+JSON_FILE="$HOME/.config/wl-kaomoji/emoticons.json"
+
+# Kill any existing wofi instance so only one runs
+killall wofi 2>/dev/null
+
+# defaults
+MODE="default"
+
+
+# parse args
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -c) MODE="copy"; shift ;;
+    -s) MODE="send"; shift ;;
+    --help)
+      echo "usage: $0 [options]"
+      echo
+      echo "options:"
+      echo "  -c        copy only"
+      echo "  -s        send only"
+      echo "default behavior: copy + send"
+      exit 0
+      ;;
+    *)
+      echo "unknown option: $1" >&2
+      echo "--help for usage." >&2
+      exit 1
+      ;;
+  esac
+done
+
+CHOICE=$(jq -r '
+  .emoticons[]
+  | {tags, string}
+  | "\(.string)    [\(.tags | join(", "))]"
+' "$JSON_FILE" \
+| wofi --dmenu --prompt 'kaomoji (´꒳`)♡' --matching fuzzy --allow-markup=false 2>/dev/null
+)
+
+KAOMOJI=$(echo "$CHOICE" | sed 's/  \[.*//')
+
+if [ -n "$KAOMOJI" ]; then
+  case $MODE in
+    copy) echo -n "$KAOMOJI" | wl-copy ;;
+    send) wtype "$KAOMOJI" ;;
+    default) echo -n "$KAOMOJI" | wl-copy && wtype "$KAOMOJI" ;;
+  esac
+fi
