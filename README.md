@@ -31,4 +31,4 @@ https://github.com/user-attachments/assets/f7fd2392-257d-49d6-bc00-359f8776f05d
 
 # to implement
 
-* favoriting kaomoji
+* rofi switch for more options? maybe bloat..
