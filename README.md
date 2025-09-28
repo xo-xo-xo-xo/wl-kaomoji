@@ -1,5 +1,5 @@
-# wl-kaomoji
-wofi-based kaomoji picker
+# wl-kaomoji (*≧▽≦)
+wofi-based kaomoji picker for wayland environments, with hundreds available 
 
 
 
@@ -24,6 +24,8 @@ https://github.com/user-attachments/assets/f7fd2392-257d-49d6-bc00-359f8776f05d
 * ```-s``` to only send kaomoji
 * default behavior: both
 
+
+
 # credits
 
 * [yorunoken's wofi kaomoji](https://github.com/yorunoken/wofi-kaomoji) for the idea
@@ -31,4 +33,6 @@ https://github.com/user-attachments/assets/f7fd2392-257d-49d6-bc00-359f8776f05d
 
 # to implement
 
-* rofi switch for more options? maybe bloat..
+
+- [x] sort by most frequently used
+- [ ] switch to rofi maybe? 
