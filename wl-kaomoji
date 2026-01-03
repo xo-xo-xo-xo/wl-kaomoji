@@ -1,26 +1,27 @@
 #!/usr/bin/env bash
+if [ -f "$HOME/.config/wl-kaomoji/emoticons.json" ]; then
+    JSON="$HOME/.config/wl-kaomoji/emoticons.json"
+elif [ -f "/usr/share/wl-kaomoji/emoticons.json" ]; then
+    JSON="/usr/share/wl-kaomoji/emoticons.json"
+else
+    echo "emoticons.json not found in ~/.config/wl-kaomoji/ or /usr/share/wl-kaomoji/" >&2
+    exit 1
+fi
 
-JSON="$HOME/.config/wl-kaomoji/emoticons.json"
 USAGE="$HOME/.config/wl-kaomoji/history"
 mkdir -p "$(dirname "$USAGE")"; touch "$USAGE"
 killall wofi 2>/dev/null
-
 MODE="default"
 while [[ $# -gt 0 ]]; do
   case "$1" in -c) MODE="copy";; -s) MODE="send";; --help) echo "usage: $0 [-c|-s]"; exit 0;; *) echo "unknown option $1"; exit 1;; esac; shift
 done
-
 declare -A C T
 while IFS=$'\t' read -r k t; do ((C["$k"]++)); T["$k"]=$t; done < "$USAGE"
-
 MENU=$(jq -r '.emoticons[] | "\(.string)\t\(.tags | join(" "))"' "$JSON" | while IFS=$'\t' read -r k tags; do
   c=${C["$k"]:-0}; t=${T["$k"]:-0}; printf "%s\t%010d\t%010d\t%s\n" "$k" "$c" "$t" "$tags"
 done | sort -t$'\t' -k3,3nr -k2,2nr | awk -F'\t' '{print $1 "\t" $4}')
-
 CHOICE=$(echo "$MENU" | wofi --dmenu --prompt 'kaomoji (´꒳`)♡' --matching fuzzy --allow-markup=false 2>/dev/null | awk '{print $1}')
 [ -z "$CHOICE" ] && exit 0
-
 echo -e "$CHOICE\t$(date +%s)" >> "$USAGE"
 echo -n "$CHOICE" > /tmp/last-kaomoji.txt
-
 case $MODE in copy) echo -n "$CHOICE" | wl-copy;; send) wtype "$CHOICE";; *) echo -n "$CHOICE" | wl-copy && wtype "$CHOICE";; esac
