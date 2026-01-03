@@ -14,9 +14,15 @@ https://github.com/user-attachments/assets/f7fd2392-257d-49d6-bc00-359f8776f05d
 
 # install
 
+## AUR
+```bash
+yay -S wl-kaomoji
+```
+
+## manual
 * download [emoticons.json](https://github.com/w33ble/emoticon-data/blob/master/emoticons.json) from emoticon-data
-* place in ```~/.config/wl-kaomoji```
-* save ```wl-kaomoji``` anywhere
+* place in `~/.config/wl-kaomoji`
+* save `wl-kaomoji` to your `$PATH` (e.g., `~/.local/bin`)
 
 
 # usage
